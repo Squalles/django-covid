@@ -112,7 +112,7 @@ class TableScraper:
                 for (k, v) in row.items() if k in self.fields_mapper
             }
             res.append(data)
-        res = sorted(res, key=itemgetter('country'), reverse=True)
+        res = sorted(res, key=itemgetter('country'), reverse=False)
         res = json.dumps(res, ensure_ascii=False)
         return res
 

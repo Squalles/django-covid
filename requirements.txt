@@ -5,9 +5,9 @@ lxml==4.5.0
 mypy==0.770
 pandas==1.0.3
 pytest==5.4.1
-pytest-django
-Faker
+pytest-django==3.9.0
+Faker==4.0.3
 pytest-mypy==0.6.1
 requests==2.23.0
-psycopg2-binary
-yapf
+psycopg2-binary==2.8.5
+yapf==0.29.0

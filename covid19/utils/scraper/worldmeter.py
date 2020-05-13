@@ -1,4 +1,3 @@
-import datetime
 import json
 import math
 from itertools import islice
@@ -7,6 +6,7 @@ from typing import Optional, Union
 
 import pandas as pd
 import requests
+from django.utils import timezone
 
 from stats.models import Country, LiveStatistic
 
@@ -36,7 +36,7 @@ class DataStore:
             Country.objects.bulk_create(batch, self.batch_size)
 
     def create_live_statistics(self) -> None:
-        today = datetime.date.today()
+        today = timezone.now()
         countries = Country.objects.values_list('id', flat=True)
         for dct, country_id in zip(self.data, countries):
             dct['country_id'] = country_id
@@ -71,23 +71,21 @@ class DataStore:
 
 
 class TableScraper:
-    def __init__(self) -> None:
-        self.url = 'https://www.worldometers.info/coronavirus/#countries'
-        self.store = DataStore
+    url = 'https://www.worldometers.info/coronavirus/#countries'
+    fields_mapper = {
+        'Country,Other': 'country',
+        'TotalCases': 'total_cases',
+        'NewCases': 'new_cases',
+        'TotalDeaths': 'total_deaths',
+        'NewDeaths': 'new_deaths',
+        'TotalRecovered': 'total_recovered',
+        'ActiveCases': 'active_cases',
+        'Serious,Critical': 'critical',
+        'TotalTests': 'total_tests'
+    }
 
-    @property
-    def fields_mapper(self) -> dict:
-        return {
-            'Country,Other': 'country',
-            'TotalCases': 'total_cases',
-            'NewCases': 'new_cases',
-            'TotalDeaths': 'total_deaths',
-            'NewDeaths': 'new_deaths',
-            'TotalRecovered': 'total_recovered',
-            'ActiveCases': 'active_cases',
-            'Serious,Critical': 'critical',
-            'TotalTests': 'total_tests'
-        }
+    def __init__(self) -> None:
+        self.store = DataStore
 
     @staticmethod
     def get_value(

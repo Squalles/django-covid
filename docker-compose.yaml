@@ -14,8 +14,8 @@ services:
       context: .
       dockerfile: Dockerfile.local
     command: >
-      bash -c "python covid19/manage.py migrate
-      && python covid19/manage.py runserver 0.0.0.0:8000"
+      bash -c "python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:

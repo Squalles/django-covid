@@ -36,7 +36,7 @@ class DataStore:
             Country.objects.bulk_create(batch, self.batch_size)
 
     def create_live_statistics(self) -> None:
-        today = timezone.now()
+        today = timezone.now().date()
         countries = Country.objects.values_list('id', flat=True)
         for dct, country_id in zip(self.data, countries):
             dct['country_id'] = country_id

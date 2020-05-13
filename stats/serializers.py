@@ -16,7 +16,7 @@ class LiveStatisticSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     statistics = serializers.SerializerMethodField()
 
-    def get_statistics(self, obj):
+    def get_statistics(self, obj: Country) -> dict:
         query = LiveStatistic.objects.filter(country=obj.id,
                                              date__gte=datetime.date.today())
         serializer = LiveStatisticSerializer(query, many=True)

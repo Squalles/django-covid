@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 
 from django.db import models
 from django.utils import timezone
@@ -17,7 +17,7 @@ class Country(models.Model):
 
 
 class LiveStatistic(models.Model):
-    date: date = models.DateField(default=timezone.now)
+    date: datetime.date = models.DateField(default=timezone.now)
     new_cases: int = models.IntegerField(blank=True, null=True)
     new_deaths: int = models.IntegerField(blank=True, null=True)
     active_cases: int = models.IntegerField(blank=True, null=True)

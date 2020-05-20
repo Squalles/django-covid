@@ -7,6 +7,7 @@ To start application run
 
 ```
 make up
+make migrate
 ```
 
 To stop:
